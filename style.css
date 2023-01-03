@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --base-color: 240;
+  --text-color: hsl(var(--base-color), 6%, 21%);
+
+  font-size: 62.5%;
+
+  --bg-light-color: hsl(0, 0%, 100%);
+  --bg-card-on: hsl(313, 76%, 84%);
+  --bg-card-off: hsl(312, 91%, 96%);
+}
+
+body {
+  color: var(--text-color);
+  background-color: var(--bg-light-color);
+
+  gap: clamp(.3rem, 5rem + 5vw, 19.2rem);
+
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  height: 100vh;
+  position: relative;
+  top: 50%;
+}
+
+span {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12.6rem;
+
+  line-height: 14.7rem;
+}
+
+.counter {
+  cursor:default;
+}
+
+.timer {
+  animation: topdown 1500ms;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  gap: 4rem;
+}
+
+.controls button {
+  border: none;
+
+  background-color: var(--bg-light-color);
+
+  width: 100%;
+
+  cursor: pointer;
+}
+
+.cards {
+  display: grid;
+  grid-template-areas:
+    "forest  rain"
+    "coffee fireplace";
+  gap: 3.2rem;
+}
+
+.cards button {
+  width: 13.8rem;
+  height: 15.2rem;
+
+  border-radius: 24px;
+  border: none;
+
+  padding: 4.8rem, 4.8rem, 4.8rem, 4.8rem;
+
+  cursor: pointer;
+
+  animation: backtop 1500ms;
+
+  background-color: var(--bg-card-off);
+}
+.cards button, .counter, .controls svg {
+  filter: drop-shadow(0px 6px 6px rgba(0, 0, 0, 0.25));
+}
+
+.cards button:hover {
+  cursor: pointer;
+
+  background-color: hsl(313, 23%, 80%);
+
+  transition: background 1s;
+
+  transition: transform 1s;
+  transform: translateX(0) scale(1.1);
+}
+
+.controls button:hover {
+  transition: transform 1s;
+  transform: translateX(0) scale(1.2);
+}
+
+.controls svg path,
+.cards svg path {
+  fill: var(--text-color);
+}
+
+.cards button.hide, .cards button.hide svg path {
+  background-color: var(--bg-card-on);
+  fill: var(--bg-light-color);
+}
+
+@keyframes topdown {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes backtop {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 800px) {
+  body {
+    display: grid;
+    height: auto;
+    padding: 6rem 0;
+  }
+ 
+  .cards button {
+    width: 100%;
+    filter: none;
+  }
+}
