@@ -1,124 +1,67 @@
-const buttonPlay = document.querySelector(".play");
-const buttonStop = document.querySelector(".stop");
-const buttonIncrease = document.querySelector(".increase");
-const buttonDecrease = document.querySelector(".decrease");
-const minutesDisplay = document.querySelector(".minutes");
-const secondsDisplay = document.querySelector(".seconds");
-const buttonForest = document.querySelector(".forest");
-const buttonRain = document.querySelector(".rain");
-const buttonCoffee = document.querySelector(".coffee");
-const buttonFireplace = document.querySelector(".fireplace");
-const forestSound = new Audio("./assets/sounds/forest.wav");
-const rainSound = new Audio("./assets/sounds/rain.wav");
-const coffeeSound = new Audio("./assets/sounds/coffee.wav");
-const fireplaceSound = new Audio("./assets/sounds/fireplace.wav");
+const buttonPlay = document.querySelector("#play");
+const buttonStop = document.querySelector("#stop");
+const buttonIncrease = document.querySelector("#increase");
+const buttonDecrease = document.querySelector("#decrease");
+
+const buttonLightMode = document.querySelector(".lightMode");
+const buttonDarkMode = document.querySelector(".darkMode");
+const mode = document.querySelector("body");
+
+const minutesDisplay = document.querySelector("#minutes");
+const secondsDisplay = document.querySelector("#seconds");
+
+const buttonForest = document.querySelector("#forest");
+const forestVolume = buttonForest.querySelector("#input-forest");
+const forestAudio = new Audio("./assets/sounds/forest.wav");
+
+const buttonRain = document.querySelector("#rain");
+const rainVolume = buttonRain.querySelector("#input-rain");
+const rainAudio = new Audio("./assets/sounds/rain.wav");
+
+const buttonCafeteria = document.querySelector("#cafeteria");
+const cafeteriaVolume = buttonCafeteria.querySelector("#input-cafeteria");
+const cafeteriaAudio = new Audio("./assets/sounds/cafeteria.wav");
+
+const buttonFireplace = document.querySelector("#fireplace");
+const firePlaceVolume = buttonFireplace.querySelector("#input-fireplace");
+const firePlaceAudio = new Audio("./assets/sounds/fireplace.wav");
+
+const kitchenTimer = new Audio(
+  "https://github.com/maykbrito/automatic-video-creator/blob/master/audios/kichen-timer.mp3?raw=true"
+);
+
 let minutes = Number(minutesDisplay.textContent);
 let counterPressButtonPlay = 0;
 let counterPressCard = 0;
 let timerTimeOut;
+forestAudio.loop = true;
+rainAudio.loop = true;
+cafeteriaAudio.loop = true;
+firePlaceAudio.loop = true;
+
+buttonLightMode.addEventListener("click", function () {
+  buttonLightMode.classList.add("hide");
+  buttonDarkMode.classList.remove("hide");
+  mode.classList.remove("dark");
+});
+
+buttonDarkMode.addEventListener("click", function () {
+  buttonLightMode.classList.remove("hide");
+  buttonDarkMode.classList.add("hide");
+  mode.classList.add("dark");
+});
 
 buttonPlay.addEventListener("click", function () {
-  if (counterPressButtonPlay == 0) {
-    a();
-    counterPressButtonPlay += 1;
-  } else {
-    b();
-    counterPressButtonPlay = 0;
-  }
-
-  function a() {
+  if (!buttonPlay.getAttribute("play")) {
+    buttonPlay.setAttribute("play", "true");
     countdown();
+    return;
   }
-
-  function b() {
-    hold();
-  }
+  hold();
 });
 
 buttonStop.addEventListener("click", function () {
   reset();
-});
-
-buttonForest.addEventListener("click", function () {
-  if (counterPressCard == 0) {
-    a();
-    counterPressCard += 1;
-  } else {
-    b();
-    counterPressCard = 0;
-  }
-
-  function a() {
-    forestSound.play();
-    forestSound.loop = true;
-    buttonForest.classList.add("hide");
-  }
-
-  function b() {
-    forestSound.pause();
-    buttonForest.classList.remove("hide");
-  }
-});
-
-buttonRain.addEventListener("click", function () {
-  if (counterPressCard == 0) {
-    a();
-    counterPressCard += 1;
-  } else {
-    b();
-    counterPressCard = 0;
-  }
-
-  function a() {
-    rainSound.play();
-    rainSound.loop = true;
-    buttonRain.classList.add("hide");
-  }
-
-  function b() {
-    rainSound.pause();
-    buttonRain.classList.remove("hide");
-  }
-});
-
-buttonCoffee.addEventListener("click", function () {
-  if (counterPressCard == 0) {
-    a();
-    counterPressCard += 1;
-  } else {
-    b();
-    counterPressCard = 0;
-  }
-
-  function a() {
-    coffeeSound.play();
-    buttonCoffee.classList.add("hide");
-  }
-
-  function b() {
-    coffeeSound.pause();
-    buttonCoffee.classList.remove("hide");
-  }
-});
-
-buttonFireplace.addEventListener("click", function () {
-  if (counterPressCard == 0) {
-    a();
-    counterPressCard += 1;
-  } else {
-    b();
-    counterPressCard = 0;
-  }
-
-  function a() {
-    fireplaceSound.play();
-    buttonFireplace.classList.add("hide");
-  }
-
-  function b() {
-    fireplaceSound.pause();
-    buttonFireplace.classList.remove("hide");
-  }
 });
 
 buttonIncrease.addEventListener("click", function () {
@@ -150,11 +93,12 @@ function countdown() {
 
     if (isFinished) {
       reset();
+      timeEnd();
       return;
     }
 
     if (seconds <= 0) {
-      seconds = 60;
+      seconds = 2;
       --minutes;
     }
     updateDisplay(minutes, String(seconds - 1));
@@ -164,5 +108,74 @@ function countdown() {
 }
 
 function hold() {
+  buttonPlay.removeAttribute("play");
   clearTimeout(timerTimeOut);
 }
+
+function timeEnd() {
+  kitchenTimer.play();
+}
+
+buttonForest.addEventListener("click", function (event) {
+  if (event.target !== forestVolume) {
+    if (!buttonForest.classList.contains("on")) {
+      forestAudio.play();
+      buttonForest.classList.add("on");
+      return;
+    }
+    forestAudio.pause();
+    buttonForest.classList.remove("on");
+  }
+});
+
+buttonRain.addEventListener("click", function (event) {
+  if (event.target !== rainVolume) {
+    if (!buttonRain.classList.contains("on")) {
+      rainAudio.play();
+      buttonRain.classList.add("on");
+      return;
+    }
+    rainAudio.pause();
+    buttonRain.classList.remove("on");
+  }
+});
+
+buttonCafeteria.addEventListener("click", function (event) {
+  if (event.target !== cafeteriaVolume) {
+    if (!buttonCafeteria.classList.contains("on")) {
+      cafeteriaAudio.play();
+      buttonCafeteria.classList.add("on");
+      return;
+    }
+    cafeteriaAudio.pause();
+    buttonCafeteria.classList.remove("on");
+  }
+});
+
+buttonFireplace.addEventListener("click", function (event) {
+  if (event.target !== firePlaceVolume) {
+    if (!buttonFireplace.classList.contains("on")) {
+      firePlaceAudio.play();
+      buttonFireplace.classList.add("on");
+      return;
+    }
+    firePlaceAudio.pause();
+    buttonFireplace.classList.remove("on");
+  }
+});
+
+forestVolume.addEventListener("input", function () {
+  forestAudio.volume = forestVolume.value;
+});
+
+rainVolume.addEventListener("input", function (event) {
+  rainAudio.volume = rainVolume.value;
+});
+
+cafeteriaVolume.addEventListener("input", function () {
+  cafeteriaAudio.volume = cafeteriaVolume.value;
+});
+
+firePlaceVolume.addEventListener("input", function () {
+  firePlaceAudio.volume = firePlaceVolume.value;
+});

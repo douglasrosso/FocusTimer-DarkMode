@@ -5,29 +5,59 @@
 }
 
 :root {
-  --base-color: 240;
-  --text-color: hsl(var(--base-color), 6%, 21%);
-
   font-size: 62.5%;
 
-  --bg-light-color: hsl(0, 0%, 100%);
-  --bg-card-on: hsl(313, 76%, 84%);
-  --bg-card-off: hsl(312, 91%, 96%);
+  --base-color-black: 240;
+  --txt-color-black: hsl(var(--base-color-black), 6%, 21%);
+  --base-color-white: 0;
+  --txt-color-white: hsla(var(--base-color-white), 0%, 100%, 1);
+
+  --bg-light-mode: hsl(0, 0%, 100%);
+  --bg-dark-mode: hsla(240, 5%, 7%, 1);
+
+  --bg-lm-cardOn: hsl(194, 97%, 31%);
+  --bg-lm-cardOff: hsl(240, 9%, 89%);
+  --bg-lm-cardHover: hsl(0, 0%, 90%);
+
+  --bg-dm-cardOff: hsl(240, 6%, 17%);
+  --bg-dm-cardOn: hsl(195, 74%, 15%);
+  --bg-dm-cardHover: hsl(197, 84%, 29%);
+
+  --color-volumeBar: hsl(240, 6%, 21%);
+
+  --color-fill-grey: hsl(240, 7%, 78%);
+  --color-fill-yellow: hsl(46, 83%, 51%);
 }
 
 body {
-  color: var(--text-color);
-  background-color: var(--bg-light-color);
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  top: 40%;
 
-  gap: clamp(.3rem, 5rem + 5vw, 19.2rem);
+  color: var(--txt-color-black);
+  background-color: var(--bg-light-mode);
+}
+
+body>* {
+  transition: background 1s;
+}
+
+header {
+  padding: 6rem 6rem 0 0;
+  display: flex;
+  justify-content: end;
+
+}
+
+main {
+  gap: 19.2rem;
 
   justify-content: center;
   align-items: center;
   display: flex;
 
-  height: 100vh;
-  position: relative;
-  top: 50%;
+  margin-top: 9.2rem;
 }
 
 span {
@@ -35,10 +65,8 @@ span {
   font-size: 12.6rem;
 
   line-height: 14.7rem;
-}
 
-.counter {
-  cursor:default;
+  cursor: default;
 }
 
 .timer {
@@ -53,21 +81,21 @@ span {
   gap: 4rem;
 }
 
-.controls button {
+.controls button, header button {
   border: none;
 
-  background-color: var(--bg-light-color);
+  background-color: var(--bg-light-mode);
+}
 
+.controls button {
   width: 100%;
-
-  cursor: pointer;
 }
 
 .cards {
   display: grid;
   grid-template-areas:
     "forest  rain"
-    "coffee fireplace";
+    "cafeteria fireplace";
   gap: 3.2rem;
 }
 
@@ -78,42 +106,133 @@ span {
   border-radius: 24px;
   border: none;
 
-  padding: 4.8rem, 4.8rem, 4.8rem, 4.8rem;
-
-  cursor: pointer;
+  padding: 2.4rem;
 
   animation: backtop 1500ms;
 
-  background-color: var(--bg-card-off);
+  background-color: var(--bg-lm-cardOff);
 }
-.cards button, .counter, .controls svg {
+
+.cards button, .counter>*, header button svg {
   filter: drop-shadow(0px 6px 6px rgba(0, 0, 0, 0.25));
 }
 
 .cards button:hover {
-  cursor: pointer;
-
-  background-color: hsl(313, 23%, 80%);
+  background-color: var(--bg-lm-cardHover);
 
   transition: background 1s;
 
-  transition: transform 1s;
   transform: translateX(0) scale(1.1);
 }
 
-.controls button:hover {
-  transition: transform 1s;
+.controls button:hover, header button:hover {
   transform: translateX(0) scale(1.2);
 }
 
-.controls svg path,
-.cards svg path {
-  fill: var(--text-color);
+header button:hover path {
+  fill: var(--color-fill-yellow);
 }
 
-.cards button.hide, .cards button.hide svg path {
-  background-color: var(--bg-card-on);
-  fill: var(--bg-light-color);
+.cards svg path, header button path {
+  fill: var(--txt-color-black);
+}
+
+.controls button:hover,
+header button:hover,
+.cards>*:hover {
+  transition: transform 1s;
+  cursor: pointer;
+}
+
+
+.cards button.on, .cards button.on svg path {
+  background-color: var(--bg-lm-cardOn);
+  fill: var(--txt-color-white);
+}
+
+.cards input {
+  margin-top: 3.2rem;
+  width: 9rem;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-block;
+  width: 9rem;
+  height: 0.4rem;
+  position: relative;
+  border-radius: 5px;
+  background-color: var(--color-volumeBar);
+  outline: none;
+}
+
+[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--color-volumeBar);
+}
+
+.hide {
+  display: none;
+}
+
+.dark>* {
+  transition: background 1s;
+}
+
+.dark span {
+  color: var(--txt-color-white);
+}
+
+.dark, .dark .controls button, .dark header button {
+  background-color: var(--bg-dark-mode);
+  border: none;
+}
+
+.dark button, .dark path, .dark .cards path {
+  fill: var(--color-fill-grey);
+  background-color: var(--bg-dm-cardOff);
+}
+
+.dark .cards button.on, .dark .cards button.on svg path {
+  background-color: var(--bg-dm-cardOn);
+}
+
+.dark .cards button:hover {
+  background-color: var(--bg-dm-cardHover);
+}
+
+.dark header button:hover svg, header button:hover svg {
+  filter: drop-shadow(0px 6px 6px hsl(46, 50%, 58%));
+}
+
+.dark .cards button, .counter, .controls svg, header button svg {
+  filter: drop-shadow(0px 6px 6px hsla(0, 2%, 24%, 0.25));
+}
+
+.dark input[type=range], button.on input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-block;
+  width: 9rem;
+  height: 0.4rem;
+  position: relative;
+  border-radius: 5px;
+  background-color: var(--bg-light-mode);
+  outline: none;
+}
+
+.dark [type=range]::-webkit-slider-thumb, button.on [type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--bg-light-mode);
 }
 
 @keyframes topdown {
@@ -140,15 +259,103 @@ span {
   }
 }
 
-@media (max-width: 800px) {
-  body {
+@media (max-width: 1000px) {
+  main {
     display: grid;
-    height: auto;
-    padding: 6rem 0;
+
+    margin-top: 6rem;
+    padding: 0;
+
+    gap: 4rem;
   }
- 
+
+  .timer {
+    justify-content: center;
+    display: grid;
+  }
+
+  header button svg {
+    width: clamp(3.5rem, 1px + 4vw, 4rem);
+  }
+
+  header {
+    padding: 3rem 3rem 0 0;
+  }
+
   .cards button {
     width: 100%;
     filter: none;
+    height: 10rem;
+  }
+
+  .cards {
+    display: flex;
+    margin-inline: 8rem;
+  }
+
+  .cards svg {
+    height: 3rem;
+  }
+
+  .cards button, .counter, .controls svg, header button svg {
+    filter: drop-shadow(0px 6px 6px rgba(0, 0, 0, 0.25));
+  }
+
+  .cards input {
+    margin-top: 1.2rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .cards {
+    display: grid;
+    grid-template-areas:
+      "forest  rain"
+      "cafeteria fireplace";
+    gap: 3.2rem;
+    width: auto;
+  }
+
+  .cards button {
+    height: 10rem;
+  }
+}
+
+@media (max-width: 500px) {
+  body {
+    width: 100vw;
+  }
+
+  header button svg, header button {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  main {
+    margin-inline: 3rem;
+  }
+
+  span {
+    font-size: 7rem;
+    line-height: 9rem;
+  }
+
+  .controls button, .controls button svg {
+    width: 100%;
+    height: 2.8rem;
+  }
+
+  .controls {
+    gap: 2rem;
+  }
+
+  .cards button {
+    height: 7rem;
+    padding: 1rem 1rem 0 1rem;
+  }
+
+  .cards input {
+    margin: 0 0 2rem 0;
+    width: 5rem;
   }
 }
