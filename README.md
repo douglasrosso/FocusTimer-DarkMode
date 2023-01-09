@@ -1,4 +1,4 @@
-<h1 align="center">⏱ FocusTimer 2.0 </h1>
+<h1 align="center">⏱ FocusTimer </h1>
 
 ![focustimer2 0](https://user-images.githubusercontent.com/107089633/210451169-5a89d35e-476e-4718-ac1a-39591cba1eb4.gif)
 
